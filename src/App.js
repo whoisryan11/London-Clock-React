@@ -61,6 +61,7 @@ class App extends Component {
       }));
       this.switch_apm = true;
     }
+    
   }
   
   componentDidMount() {
@@ -78,6 +79,7 @@ class App extends Component {
 
   pauseClock(){
     this.play = false;
+    this.tick();
   }
 
   resumeClock(){
@@ -153,6 +155,7 @@ class App extends Component {
             enterUp={(event) => {this.handleKeyPress(event)}}
             focus={()=>this.pauseClock()}
             blur={()=>this.resumeClock()}
+            playing={this.play}
             /> }
       </div>
     )
