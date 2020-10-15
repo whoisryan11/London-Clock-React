@@ -15,14 +15,16 @@ class App extends Component {
         hour: new Date().getUTCHours() - 12,
         minutes: new Date().getUTCMinutes(),
         seconds: new Date().getUTCSeconds(),
-        apm: 'PM'
+        apm: 'PM',
+        playing: true
       }
     } else {
       this.state = {
         hour: new Date().getUTCHours(),
         minutes: new Date().getUTCMinutes(),
         seconds: new Date().getUTCSeconds(),
-        apm: "AM"
+        apm: "AM",
+        playing: true
       }
     }
     
@@ -66,7 +68,7 @@ class App extends Component {
   
   componentDidMount() {
     this.interval = setInterval(() => {
-      if (this.play === true){
+      if (this.state.playing === true){
         this.tick()
       }
     }, 1000);
@@ -78,12 +80,18 @@ class App extends Component {
   }
 
   pauseClock(){
-    this.play = false;
-    this.tick();
+    this.setState(state => ({
+      playing: false
+    }));
+    /**this.play = false;
+    this.tick();*/
   }
 
   resumeClock(){
-    this.play = true;
+    this.setState(state => ({
+      playing: true
+    }));
+    //this.play = true;
   }
 
   bindingHour = (event) => {
@@ -155,7 +163,7 @@ class App extends Component {
             enterUp={(event) => {this.handleKeyPress(event)}}
             focus={()=>this.pauseClock()}
             blur={()=>this.resumeClock()}
-            playing={this.play}
+            playing={this.state.playing}
             /> }
       </div>
     )
