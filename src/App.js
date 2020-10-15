@@ -33,26 +33,29 @@ class App extends Component {
     this.setState(state => ({
       seconds: Number(state.seconds) + 1,
     }));
-    if (Number(this.state.seconds) >= 60) {
+    if ( Number(this.state.seconds) >= 60 ) {
       this.setState(state => ({
         minutes: Number(state.minutes) + 1,
         seconds: 0,
       }));
     }
-    if (Number(this.state.minutes) >= 60) {
+    if ( Number(this.state.minutes) >= 60 ) {
       this.setState(state => ({
         hour: Number(state.hour) + 1,
         minutes: 0,
       }));
     }
-    if (Number(this.state.hour) === 12) {
+    if ( Number(this.state.hour) === 12 && 
+      Number(this.state.minutes) === 0 && 
+      Number(this.state.seconds) === 0
+    ) {
       if (this.switch_apm === true) {
         this.setState(state => ({
           apm : ((state.apm === "AM") ? "PM" : "AM")
         }));
         this.switch_apm = false;
       }
-    } else if (Number(this.state.hour) === 13) {
+    } else if ( Number(this.state.hour) === 13 ) {
       this.setState(state => ({
         hour: 1,
       }));
@@ -128,6 +131,12 @@ class App extends Component {
     }
   }
 
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.resumeClock();
+    }
+  }
+
   render(){
     return (
       <div className="Container">
@@ -141,6 +150,7 @@ class App extends Component {
             changeMin={(event) => {this.bindingMinutes(event)}}
             changeSec={(event) => {this.bindingSeconds(event)}}
             changeAPM={(event) => {this.bindingAPM(event)}}
+            enterUp={(event) => {this.handleKeyPress(event)}}
             focus={()=>this.pauseClock()}
             blur={()=>this.resumeClock()}
             /> }
